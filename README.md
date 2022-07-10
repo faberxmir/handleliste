@@ -1,6 +1,6 @@
 # handleliste
 
-** Sigrid kan legge til ting i handleliste **
+**Sigrid kan legge til ting i handleliste**
   - 'tick of when in basket'
   - 'markere når varen ikke finnes'
   - 'se hvem som la til varen'
