@@ -1,22 +1,27 @@
 import './App.css';
-
-import {useState, useEffect} from 'react';
+import Welcome from './components/welcome';
+import Code404 from './components/code404';
+import ShoppingList from './components/shoppingList';
+import Navbar from './components/Navbar';
+import {BrowserRouter, Routes, Route } from 'react-router-dom';
+import { UserContextProvider } from './context/UserContext';
 
 function App() {
-  const [data, setData] = useState();
-
-  useEffect(() => {
-    fetch('/api')
-      .then(res => res.json())
-      .then(data => setData(data.message))
-      .catch(err => console.log(err));
-  });
-
+  console.log('rendering APP')
   return (
-    <div className="App">
-      <h1>{data}</h1>
+    <div className='App'>
+      <UserContextProvider>
+        <Navbar />
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Welcome />} />
+            <Route path='/shoppinglist' element={<ShoppingList />} />
+            <Route path="*" element={<Code404 />} />
+          </Routes>
+        </BrowserRouter>
+      </UserContextProvider>
     </div>
-  );
+  )
 }
 
 export default App;

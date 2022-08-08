@@ -25,13 +25,23 @@ const GrocerySchema = new Schema ({
 });
 
 const ListSchema = new Schema ({
-    author: String,
-    isCompleted: Boolean,
+    
+isCompleted: Boolean,
     finalPrice: Number,
     groceries: [GrocerySchema]
 });
 
+const UserSchema = new Schema  ({
+    userGoogleID: {
+        type: String,
+        required: true, 
+        unique: true
+    },
+    groceryLists:[ListSchema]
+});
+
 //const Grocery = mongoose.model('grocery', GrocerySchema);
+const User = mongoose.model('user', UserSchema);
 const GroceryList = mongoose.model('grocerylist', ListSchema);
 
 class GroceryListHandler {
@@ -92,10 +102,15 @@ class GroceryListHandler {
      * @param {string} author whomever created the list... 
      * @returns the mongoose grocerylistmodel
      */
-    async createGroceryList(author){
+    async createGroceryList(userGoogleID){
+        //get user - and user really should be some kind of permanent state since logged in
+        console.info(`creating new grocerylist with author ${userGoogleID}`);
+        const author = new User({userGoogleID});
+        console.info(`author created ${author}`);
+
         const groceryList = new GroceryList(
             {
-                author,
+                collaborators: [author],
                 isCompleted: false,
                 finalPrice: 0,
                 groceries: []
@@ -133,7 +148,7 @@ class GroceryListHandler {
     async removeGrocery(groceryListID, groceryID){
         this.getGroceryList(groceryListID)
             .then(([grocerylist]) => {
-                console.log(`grocerylist: ${grocerylist} was found!`)
+
                 grocerylist.groceries.id(groceryID).remove()
                     .then(result => {
                         console.log(`succcess ${result} was removed`);
@@ -175,9 +190,9 @@ class GroceryListHandler {
         return mongoose.connection.readyState === CONNECTED || mongoose.connection.readyState === CONNECTING;
     }
 
-    setListTitle() {
-        return `${author}s Grocery list`;
-    }
+    // setListTitle() {
+    //     return `${author}s Grocery list`;
+    // }
     getAuthor(){
         return this.author;
     }

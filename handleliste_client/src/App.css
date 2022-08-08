@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar {
+  background-color: #282c34;
+  color: aliceblue;
+  display: inline-block;
+  width: 80%;
+  margin: 1px auto;
+}
+
+.navbar ul {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+}
+
+.navbar ul li {
+  display: inline-block;
+  list-style-type: none;
+  padding: 0 5px;
+}
+
+.navbar h1 {
+  display: inline-block;
+  padding: 0 5em 0 0;
+  font-size: 1em;
+}
